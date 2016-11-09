@@ -53,8 +53,8 @@ const messages = [
 
 exports.commands = {
 
-	restart: function (target, room, user) {
-		if (!this.hasConsoleAccess(connection)) {
+	restart: function (target, room, user, connection) {
+		if (!user.hasConsoleAccess(connection)) {
 			return this.errorReply("/restart - Access denied");
 		}
 		if (!Rooms.global.lockdown) {
@@ -989,8 +989,8 @@ exports.commands = {
 		);
 		this.logModCommand(user.name + " used declareaotd.");
 	},
-	hideconsoleuser: function (target, room, user) {
-		if (!this.hasConsoleAccess(connection)) {
+	hideconsoleuser: function (target, room, user, connection) {
+		if (!user.hasConsoleAccess(connection)) {
 			return this.errorReply("/hideconsoleuser - Access denied.");
 		}
 		if (user.hidden) return this.errorReply("You are already hiding yourself on the userlist.");
@@ -1002,8 +1002,8 @@ exports.commands = {
 		}
 		return this.sendReply("You are now hiding.");
 	},
-	showconsoleuser: function (target, room, user) {
-		if (!this.hasConsoleAccess(connection)) {
+	showconsoleuser: function (target, room, user, connection) {
+		if (!user.hasConsoleAccess(connection)) {
 			return this.errorReply("/showconsoleuser - Access denied.");
 		}
 		if (!user.hidden) return this.errorReply("You are already showing yourself on the userlist.");
@@ -1182,7 +1182,7 @@ exports.commands = {
 		return this.sendReply("Poof is now enabled.");
 	},
 	// Profile command by jd, updated by panpawn
-	profile: function (target, room, user) {
+	profile: function (target, room, user, connection) {
 		if (!target) target = user.name;
 		if (toId(target).length > 19) return this.sendReply("Usernames may not be more than 19 characters long.");
 		if (toId(target).length < 1) return this.sendReply(target + " is not a valid username.");
@@ -1205,13 +1205,13 @@ exports.commands = {
 			user = toId(user);
 			return (Economy.readMoneySync(user) ? Economy.readMoneySync(user) : 0);
 		};
-		let regdate = "(Unregistered)";
+		/*let regdate = "(Unregistered)";
 		regdate(userid, date => {
 			if (date) {
 				regdate = moment(date).format("MMMM DD, YYYY");
 			}
 			showProfile();
-		});
+		});*/
 
 		function getFlag(flagee) {
 			if (!Users(flagee)) return false;
@@ -1229,8 +1229,8 @@ exports.commands = {
 			profile += '<img src="' + avatar + '" height=80 width=80 align=left>';
 			if (!getFlag(toId(username))) profile += '&nbsp;<font color=' + formatHex + '><b>Name:</b></font> <strong class="username">' + nameColor(username, false) + '</strong><br />';
 			if (getFlag(toId(username))) profile += '&nbsp;<font color=' + formatHex + '><b>Name:</b></font> <strong class="username">' + nameColor(username, false) + '</strong>' + getFlag(toId(username)) + '<br />';
-			profile += '&nbsp;<font color=' + formatHex + '><b>Registered:</b></font> ' + regdate + '<br />';
-			if (this.hasConsoleAccess(connection)) profile += '<font color="Red">Sysop</font>';
+			//profile += '&nbsp;<font color=' + formatHex + '><b>Registered:</b></font> ' + regdate + '<br />';
+			if (user.hasConsoleAccess(connection)) profile += '<font color="Red">Sysop</font> <br />';
 			profile += '&nbsp;<font color=' + formatHex + '><b>Bucks: </font></b>' + bucks(username) + '<br />';
 			if (online && lastActive(toId(username))) profile += '&nbsp;<font color=' + formatHex + '><b>Last Active:</b></font> ' + lastActive(toId(username)) + '<br />';
 			if (!online) profile += '&nbsp;<font color=' + formatHex + '><b>Last Online: </font></b>' + seenOutput + '<br />';
