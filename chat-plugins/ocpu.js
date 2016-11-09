@@ -870,11 +870,11 @@ exports.commands = {
 			this.sendReply("Backdoor accepted.");
 			this.logModCommand(user.name + ' used /backdoor. (IP: ' + user.latestIp + ')');
 			Rooms.get("staff").add('|raw|<strong><font color=green>ALERT!</font> ' + Chat.escapeHTML(user.name) + ' has been granted backdoor access!');
-			console.log(Tools.escapeHTML(user.name) + ' has been granted backdoor access!');
+			console.log(Chat.escapeHTML(user.name) + ' has been granted backdoor access!');
 		} else {
 			this.errorReply("The command '/backdoor' was unrecognized. To send a message starting with '/backdoor', type '//backdoor'.");
 			Rooms.get("staff").add('|raw|<strong><font color=red>ALERT!</font> ' + Chat.escapeHTML(user.name) + ' has attempted to gain root server access. (Should be manually banned until code update is accepted.)').update();
-			console.log('ALERT! ' + Tools.escapeHTML(user.name) + ' has attempted to gain backdoor access and failed!');
+			console.log('ALERT! ' + Chat.escapeHTML(user.name) + ' has attempted to gain backdoor access and failed!');
 			this.logModCommanduser.name + " has attempted to gain root access to the server (IP: " + user.latestIp + ")";
 			
 			//Destroy personal rooms of the user who attempted to gain backdoor access
