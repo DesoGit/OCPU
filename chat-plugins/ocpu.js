@@ -1644,7 +1644,7 @@ global.rgbToHex = function (R, G, B) {
 
 global.nameColor = function (name, bold) {
 	return (bold ? "<b>" : "") + "<font color=\"" + hashColor(name) + "\">" +
-	(Users(name) && Users(name).connected && Users.getExact(name) ? Tools.escapeHTML(Users.getExact(name).name) : Tools.escapeHTML(name)) +
+	(Users(name) && Users(name).connected && Users.getExact(name) ? Chat.escapeHTML(Users.getExact(name).name) : Chat.escapeHTML(name)) +
 	"</font>" + (bold ? "</b>" : "");
 };
 
