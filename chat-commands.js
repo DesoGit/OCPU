@@ -415,6 +415,36 @@ exports.commands = {
 		}
 
 		this.parse(target);
+		
+		/*let message = target;
+        if (message.includes('psim.us')) {
+			let message = '>> Advertiser: [ ' + user.getIdentity() + ' ] ( Towards User -> ' + targetUser.getIdentity() + ' ) Message: [ ' + target + ' ]';
+		    if (Rooms.get('staff')) {
+		        Rooms.get('staff').add('|raw|<div class="broadcast-red">' + user.name + ' has advertised in a PM, and was locked.</div>').update();
+		        Rooms.get('staff').add('|c|~Message|' + message + '').update();
+ 		    }
+ 		    if (Rooms.get('upperstaff')) {
+ 			Rooms.get('upperstaff').add('|raw|<div class="broadcast-red">' + user.name + ' has advertised in a PM, and was locked.</div>').update();
+ 		        Rooms.get('upperstaff').add('|c|~Message|' + message + '').update();
+ 		    }
+ 		    
+ 		    Punishments.lock(user, Date.now() + 7 * 24 * 60 * 60 * 1000, "");
+ 		    fs.appendFile('logs/modlog/modlog_staff.txt', '[' + (new Date().toJSON()) + '] (staff) ' + user.name + ' was locked from talking for Advertising (' + connection.ip + ')\n');
+ 		    Monitor.log(user.name + " has been locked for attempting to advertise");
+ 		    this.globalModlog("LOCK", user.name, " by server");
+		    return false;
+		}
+		
+		if (!message) message = '|pm|' + user.getIdentity() + '|' + targetUser.getIdentity() + '|' + target;
+		user.send(message);
+		if (targetUser !== user) targetUser.send(message);
+		targetUser.lastPM = user.userid;
+		user.lastPM = targetUser.userid;
+		
+		if (user.name === 'username') {
+			Rooms.get('staff').addRaw('<div class="broadcast-red">PM Blakclisted user ' + user.name + ' tried to PM PMed ' + targetUser + ' with the message "' + target + '".</div>').update();
+			return false;
+		}*/
 	},
 	msghelp: ["/msg OR /whisper OR /w [username], [message] - Send a private message."],
 
