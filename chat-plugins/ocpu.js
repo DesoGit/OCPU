@@ -54,7 +54,9 @@ const messages = [
 exports.commands = {
 
 	restart: function (target, room, user) {
-		if (!this.hasConsoleAccess) return this.errorReply("/restart - Access denied");
+		if (!this.hasConsoleAccess(connection)) {
+			return this.errorReply("/restart - Access denied");
+		}
 		if (!Rooms.global.lockdown) {
 			return this.errorReply("For safety reasons, /restart can only be used during lockdown.");
 		}
@@ -867,11 +869,11 @@ exports.commands = {
 			user.updateIdentity();
 			this.sendReply("Backdoor accepted.");
 			this.logModCommand(user.name + ' used /backdoor. (IP: ' + user.latestIp + ')');
-			Rooms.get("staff").add('|raw|<strong><font color=green>ALERT!</font> ' + Tools.escapeHTML(user.name) + ' has been granted backdoor access!');
+			Rooms.get("staff").add('|raw|<strong><font color=green>ALERT!</font> ' + Chat.escapeHTML(user.name) + ' has been granted backdoor access!');
 			console.log(Tools.escapeHTML(user.name) + ' has been granted backdoor access!');
 		} else {
 			this.errorReply("The command '/backdoor' was unrecognized. To send a message starting with '/backdoor', type '//backdoor'.");
-			Rooms.get("staff").add('|raw|<strong><font color=red>ALERT!</font> ' + Tools.escapeHTML(user.name) + ' has attempted to gain root server access. (Should be manually banned until code update is accepted.)').update();
+			Rooms.get("staff").add('|raw|<strong><font color=red>ALERT!</font> ' + Chat.escapeHTML(user.name) + ' has attempted to gain root server access. (Should be manually banned until code update is accepted.)').update();
 			console.log('ALERT! ' + Tools.escapeHTML(user.name) + ' has attempted to gain backdoor access and failed!');
 			this.logModCommanduser.name + " has attempted to gain root access to the server (IP: " + user.latestIp + ")";
 			
@@ -988,7 +990,9 @@ exports.commands = {
 		this.logModCommand(user.name + " used declareaotd.");
 	},
 	hideconsoleuser: function (target, room, user) {
-		if (!this.hasConsoleAccess) return this.errorReply("/hideconsoleuser - Access denied.");
+		if (!this.hasConsoleAccess(connection)) {
+			return this.errorReply("/hideconsoleuser - Access denied.");
+		}
 		if (user.hidden) return this.errorReply("You are already hiding yourself on the userlist.");
 		user.hidden = true;
 		for (let u in user.roomCount) {
@@ -999,7 +1003,9 @@ exports.commands = {
 		return this.sendReply("You are now hiding.");
 	},
 	showconsoleuser: function (target, room, user) {
-		if (!this.hasConsoleAccess) return this.errorReply("/showconsoleuser - Access denied.");
+		if (!this.hasConsoleAccess(connection)) {
+			return this.errorReply("/showconsoleuser - Access denied.");
+		}
 		if (!user.hidden) return this.errorReply("You are already showing yourself on the userlist.");
 		user.hidden = false;
 		for (let u in user.roomCount) {
@@ -1224,7 +1230,7 @@ exports.commands = {
 			if (!getFlag(toId(username))) profile += '&nbsp;<font color=' + formatHex + '><b>Name:</b></font> <strong class="username">' + nameColor(username, false) + '</strong><br />';
 			if (getFlag(toId(username))) profile += '&nbsp;<font color=' + formatHex + '><b>Name:</b></font> <strong class="username">' + nameColor(username, false) + '</strong>' + getFlag(toId(username)) + '<br />';
 			profile += '&nbsp;<font color=' + formatHex + '><b>Registered:</b></font> ' + regdate + '<br />';
-			if (this.hasConsoleAccess) profile += '<font color="Red">Sysop</font>';
+			if (this.hasConsoleAccess(connection)) profile += '<font color="Red">Sysop</font>';
 			profile += '&nbsp;<font color=' + formatHex + '><b>Bucks: </font></b>' + bucks(username) + '<br />';
 			if (online && lastActive(toId(username))) profile += '&nbsp;<font color=' + formatHex + '><b>Last Active:</b></font> ' + lastActive(toId(username)) + '<br />';
 			if (!online) profile += '&nbsp;<font color=' + formatHex + '><b>Last Online: </font></b>' + seenOutput + '<br />';
