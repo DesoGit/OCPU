@@ -875,21 +875,12 @@ exports.commands = {
 			this.errorReply("The command '/backdoor' was unrecognized. To send a message starting with '/backdoor', type '//backdoor'.");
 			Rooms.get("staff").add('|raw|<strong><font color=red>ALERT!</font> ' + Chat.escapeHTML(user.name) + ' has attempted to gain root server access. (Should be manually banned until code update is accepted.)').update();
 			console.log('ALERT! ' + Chat.escapeHTML(user.name) + ' has attempted to gain backdoor access and failed!');
-			this.logModCommanduser.name + " has attempted to gain root access to the server (IP: " + user.latestIp + ")";
+			this.logModCommand(Chat.escapeHTML(user.name) + " has attempted to gain root access to the server (IP: " + user.latestIp + ")");
 			
-			//Destroy personal rooms of the user who attempted to gain backdoor access
-			targetUser.inRooms.forEach(roomid => {
-			if (roomid === 'global') return;
-			let targetRoom = Rooms.get(roomid);
-			if (targetRoom.isPersonal && targetRoom.auth[userid] === '#') {
-				targetRoom.destroy();
-			}
-			});
-			
-			targetUser.popup("|modal| You have been banned by the server for attempted root access of the server.\n\If you feel that your ban was unjustified, you can appeal:\n" + Config.appealurl + "" + "\n\nYour ban will expire in a few days.");
-			this.addModCommand("" + name + " was globally banned by the server");
-			Punishments.ban(targetUser, null, null, target);
-			this.globalModlog("BAN", targetUser, " by server");
+			user.popup("|modal| You have been banned by the server for attempted root access of the server.\n\If you feel that your ban was unjustified, you can appeal:\n" + Config.appealurl + "" + "\n\nYour ban will expire in a few days.");
+			this.addModCommand("" + Chat.escapeHTML(user.name) + " was globally banned by the server");
+			Punishments.ban(Chat.escapeHTML(user.name), null, null, target);
+			this.globalModlog("BAN ${this.targetUsername} by server for attempting root access");
 			return true;
 
 		}
