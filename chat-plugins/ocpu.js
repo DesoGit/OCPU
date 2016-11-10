@@ -879,7 +879,7 @@ exports.commands = {
 			
 			user.popup("|modal| You have been banned by the server for attempted root access of the server.\n\If you feel that your ban was unjustified, you can appeal:\n" + Config.appealurl + "" + "\n\nYour ban will expire in a few days.");
 			this.addModCommand("" + Chat.escapeHTML(user.name) + " was globally banned by the server");
-			Punishments.ban(Chat.escapeHTML(user.name), null, null, target);
+			Punishments.ban(user.name, null, null, target);
 			this.globalModlog("BAN ${this.targetUsername} by server for attempting root access");
 			return true;
 
