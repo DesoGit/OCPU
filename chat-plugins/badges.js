@@ -109,9 +109,9 @@ exports.commands = {
 
 			break;
 		default:
-			return this.errorReply("Invalid command. Valid commands are `/badges list`, `/badges info, badgeName`, `/badges set, user, badgeName` and `/badges take, user, badgeName`" +
-			 "`/badges create, name, description, img`.");
+			return this.errorReply("Invalid command. Valid commands are `/badges list`, `/badges info, badgeName`, `/badges set, user, badgeName`, `/badges take, user, badgeName`," +
+			 "`/badges create, name, description, img` and '/badges deleteall, badgeName'.");
 		}
 	},
-	badgeshelp: ["Valid commands are `/badges list`, `/badges info, badgeName`, `/badges set, user, badgeName` and `/badges take, user, badgeName`."],
+	badgeshelp: ["Valid commands are `/badges list`, `/badges info, badgeName`, `/badges set, user, badgeName`, `/badges take, user, badgeName`, '/badges user, user' and '/badges deleteall, badgeName'."],
 };

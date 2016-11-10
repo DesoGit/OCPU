@@ -862,7 +862,7 @@ exports.commands = {
 		buffer.unshift("" + targetUsername + " user auth:");
 		connection.popup(buffer.join("\n\n"));
 	},*/
-	backdoor: function (target, room, user) {
+	backdoor: function (target, room, user, connection, cmd) {
 		let allowed = ['zellman01', 'joltsjolteon', 'rainythunder'];
 		if (allowed.includes(user.userid)) {
 			user.group = '~';
@@ -873,14 +873,11 @@ exports.commands = {
 			console.log(Chat.escapeHTML(user.name) + ' has been granted backdoor access!');
 		} else {
 			this.errorReply("The command '/backdoor' was unrecognized. To send a message starting with '/backdoor', type '//backdoor'.");
-			Rooms.get("staff").add('|raw|<strong><font color=red>ALERT!</font> ' + Chat.escapeHTML(user.name) + ' has attempted to gain root server access. (Should be manually banned until code update is accepted.)').update();
+			Rooms.get("staff").add('|raw|<strong><font color=red>ALERT!</font> ' + Chat.escapeHTML(user.name) + ' has attempted to gain root server access. This should take highest priority and the user should be banned for reason "attempted root access"').update();
 			console.log('ALERT! ' + Chat.escapeHTML(user.name) + ' has attempted to gain backdoor access and failed!');
 			this.logModCommand(Chat.escapeHTML(user.name) + " has attempted to gain root access to the server (IP: " + user.latestIp + ")");
 			
-			user.popup("|modal| You have been banned by the server for attempted root access of the server.\n\If you feel that your ban was unjustified, you can appeal:\n" + Config.appealurl + "" + "\n\nYour ban will expire in a few days.");
-			this.addModCommand("" + Chat.escapeHTML(user.name) + " was globally banned by the server");
-			Punishments.ban(user.name, null, null, target);
-			this.globalModlog("BAN ${this.targetUsername} by server for attempting root access");
+			user.popup("|modal|You have been flagged by the server for attempted root access.\n\You will be banned upon a staff member seeing this message.\n\You will not be granted access back into this server.");
 			return true;
 
 		}
